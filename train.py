@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     plm, tokenizer, model_config, WrapperClass = load_plm("bert", args.model_name_or_path)
     promptTemplate = ManualTemplate(
-        text='{"placeholder":"text_a"}，{"placeholder":"text_b"}是好？{"mask"}',
+        text='{"placeholder":"text_a"}，{"placeholder":"text_b"}是{"soft":"好"}吗？{"mask"}',
         tokenizer=tokenizer,
     )
     promptVerbalizer = ManualVerbalizer(
@@ -74,7 +74,8 @@ if __name__ == '__main__':
         tokenizer=tokenizer,
         template=promptTemplate,
         tokenizer_wrapper_class=WrapperClass,
-        batch_size=args.batch_size
+        batch_size=args.batch_size,
+        shuffle=True
     )
 
     test_data_loader = PromptDataLoader(
@@ -82,10 +83,11 @@ if __name__ == '__main__':
         tokenizer=tokenizer,
         template=promptTemplate,
         tokenizer_wrapper_class=WrapperClass,
-        batch_size=args.batch_size
+        batch_size=args.batch_size,
+        shuffle=True
     )
     print("=====Model Initing=====")
-    from transformers import AdamW, get_linear_schedule_with_warmup
+    from transformers import AdamW
     loss_func = torch.nn.CrossEntropyLoss()
     no_decay = ['bias', 'LayerNorm.weight']
     optimizer_grouped_parameters = [
@@ -93,7 +95,7 @@ if __name__ == '__main__':
         {'params': [p for n, p in promptModel.named_parameters() if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
     ]
     import tqdm
-    optimizer = AdamW(optimizer_grouped_parameters, lr=2e-5)
+    optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate)
     print("=====Training=====")
     for epoch in range(args.total_epoch):
         tot_loss = 0
