@@ -68,7 +68,7 @@ if __name__ == '__main__':
         template=promptTemplate,
         plm=plm,
         verbalizer=promptVerbalizer,
-    )
+    ).to(device)
     train_data_loader = PromptDataLoader(
         dataset=train_dataset,
         tokenizer=tokenizer,
