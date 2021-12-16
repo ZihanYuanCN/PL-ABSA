@@ -17,7 +17,7 @@ if __name__ == '__main__':
     parser.add_argument("--learning_rate", default=2e-5, type=float)
     parser.add_argument("--train_file", default="data/train.csv", type=str)
     parser.add_argument("--test_file", default="data/test.csv", type=str)
-    parser.add_argument("--batch_size", default=16, type=int)
+    parser.add_argument("--batch_size", default=4, type=int)
     parser.add_argument("--total_epoch", default=5, type=int)
 
     args = parser.parse_args()
