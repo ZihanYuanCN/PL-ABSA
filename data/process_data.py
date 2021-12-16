@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     train_df = pd.read_csv(args.train_file, header=0, sep='\t')
-    test_df = pd.read_csv(args.test_file, header=0, sep='\t')
+    # test_df = pd.read_csv(args.test_file, header=0, sep='\t')
     print(train_df)
     aspect_set = sorted(list(set([_.split("#")[0] for _ in list(train_df['text_a'])])))
     print(aspect_set)
@@ -34,12 +34,13 @@ if __name__ == '__main__':
                       "warranty": "保修",
                       }
     print(len(aspect_set))
-    train_text = list(train_df['text_b'])
-    train_aspect = list(train_df['text_a'])
-    train_label = list(train_df['label'])
-    test_text = list(test_df['text_b'])
-    test_aspect = list(test_df['text_a'])
-    test_label = list(test_df['qid'])
+    train_size = int(0.8 * len(train_df))
+    train_text = list(train_df['text_b'])[:train_size]
+    train_aspect = list(train_df['text_a'])[:train_size]
+    train_label = list(train_df['label'])[:train_size]
+    test_text = list(train_df['text_b'])[train_size:]
+    test_aspect = list(train_df['text_a'])[train_size:]
+    test_label = list(train_df['label'])[train_size:]
     train_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in train_aspect]
     test_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in test_aspect]
     vis_train = dict()

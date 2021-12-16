@@ -43,13 +43,13 @@ if __name__ == '__main__':
         train_dataset.append(InputExample(guid=i,
                                           text_a=train_text[i],
                                           text_b=train_aspect[i],
-                                          label=train_label[i]))
+                                          label=int(train_label[i])))
     test_dataset = []
     for i in range(len(test_text)):
         test_dataset.append(InputExample(guid=i,
                                          text_a=test_text[i],
                                          text_b=test_aspect[i],
-                                         label=test_label[i]))
+                                         label=int(test_label[i])))
 
     plm, tokenizer, model_config, WrapperClass = load_plm("bert", args.model_name_or_path)
     promptTemplate = ManualTemplate(
