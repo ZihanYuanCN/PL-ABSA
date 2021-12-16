@@ -1,6 +1,8 @@
 """
 将数据处理为更简单的分类
 """
+import random
+
 import pandas as pd
 import argparse
 
@@ -35,12 +37,21 @@ if __name__ == '__main__':
                       }
     print(len(aspect_set))
     train_size = int(0.8 * len(train_df))
-    train_text = list(train_df['text_b'])[:train_size]
-    train_aspect = list(train_df['text_a'])[:train_size]
-    train_label = list(train_df['label'])[:train_size]
-    test_text = list(train_df['text_b'])[train_size:]
-    test_aspect = list(train_df['text_a'])[train_size:]
-    test_label = list(train_df['label'])[train_size:]
+    all_text = list(train_df['text_b'])
+    all_aspect = list(train_df['text_a'])
+    all_label = list(train_df['label'])
+    random.seed(1)
+    all_data = list(zip(all_text, all_aspect, all_label))
+    random.shuffle(all_data)
+    all_text = [_[0] for _ in all_data]
+    all_aspect = [_[1] for _ in all_data]
+    all_label = [_[2] for _ in all_data]
+    train_text = all_text[:train_size]
+    train_aspect = all_aspect[:train_size]
+    train_label = all_label[:train_size]
+    test_text = all_text[train_size:]
+    test_aspect = all_aspect[train_size:]
+    test_label = all_label[train_size:]
     train_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in train_aspect]
     test_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in test_aspect]
     vis_train = dict()
