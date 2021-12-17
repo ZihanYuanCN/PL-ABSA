@@ -57,7 +57,7 @@ if __name__ == '__main__':
     test_aspect = list(test_df['aspect'])
     train_label = list(train_df['label'])
     test_label = list(test_df['label'])
-    tokenizer = BertTokenizer(args.model_name_or_path, do_lower_case=True)
+    tokenizer = BertTokenizer.from_pretrained(args.model_name_or_path, do_lower_case=True)
     train_dataset = LazyNLU_Dataset(tokenizer, train_text, train_aspect, train_label)
     test_dataset = LazyNLU_Dataset(tokenizer, test_text, test_aspect, test_label)
 
