@@ -69,7 +69,7 @@ if __name__ == '__main__':
         learning_rate=args.learning_rate,
         per_device_train_batch_size=args.batch_size,  # batch size per device during training
         per_device_eval_batch_size=1,
-        weight_decay=args.weight_decay,  # strength of weight decay
+        # weight_decay=args.weight_decay,  # strength of weight decay
         save_strategy="epoch",
         seed=2021,
         logging_dir="logs/",
