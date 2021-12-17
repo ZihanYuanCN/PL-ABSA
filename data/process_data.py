@@ -17,25 +17,25 @@ if __name__ == '__main__':
     train_df = pd.read_csv(args.train_file, header=0, sep='\t')
     # test_df = pd.read_csv(args.test_file, header=0, sep='\t')
     print(train_df)
-    aspect_set = sorted(list(set([_.split("#")[0] for _ in list(train_df['text_a'])])))
-    print(aspect_set)
-    aspect_CN_dict = {"battery": "电池",
-                      "cpu": "处理器",
-                      "display": "显示屏",
-                      "hard_disc": "硬盘",
-                      "hardware": "硬件",
-                      "keyboard": "键盘",
-                      "memory": "内存",
-                      "multimedia_devices": "多媒体设备",
-                      "os": "操作系统",
-                      "phone": "手机",
-                      "ports": "接口",
-                      "power_supply": "充电器",
-                      "software": "软件",
-                      "support": "支持",
-                      "warranty": "保修",
-                      }
-    print(len(aspect_set))
+    # aspect_set = sorted(list(set([_.split("#")[0] for _ in list(train_df['text_a'])])))
+    # print(aspect_set)
+    # aspect_CN_dict = {"battery": "电池",
+    #                   "cpu": "处理器",
+    #                   "display": "显示屏",
+    #                   "hard_disc": "硬盘",
+    #                   "hardware": "硬件",
+    #                   "keyboard": "键盘",
+    #                   "memory": "内存",
+    #                   "multimedia_devices": "多媒体设备",
+    #                   "os": "操作系统",
+    #                   "phone": "手机",
+    #                   "ports": "接口",
+    #                   "power_supply": "充电器",
+    #                   "software": "软件",
+    #                   "support": "支持",
+    #                   "warranty": "保修",
+    #                   }
+    # print(len(aspect_set))
     train_size = int(0.8 * len(train_df))
     all_text = list(train_df['text_b'])
     all_aspect = list(train_df['text_a'])
@@ -52,8 +52,8 @@ if __name__ == '__main__':
     test_text = all_text[train_size:]
     test_aspect = all_aspect[train_size:]
     test_label = all_label[train_size:]
-    train_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in train_aspect]
-    test_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in test_aspect]
+    # train_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in train_aspect]
+    # test_aspect = [aspect_CN_dict[_.split('#')[0]] for _ in test_aspect]
     vis_train = dict()
     vis_test = dict()
     out_train_text = list()
