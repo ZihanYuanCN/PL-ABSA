@@ -1,10 +1,15 @@
 # coding:utf-8
+import numpy as np
 import pandas as pd
 import torch
 import argparse
 from sklearn.metrics import classification_report
 from transformers import BertForSequenceClassification, BertTokenizer
 from transformers import TrainingArguments, Trainer
+from datasets import load_metric
+
+
+metric = load_metric("f1")
 
 
 class LazyNLU_Dataset(torch.utils.data.Dataset):
@@ -34,6 +39,13 @@ class LazyNLU_Dataset(torch.utils.data.Dataset):
         item = {key: torch.tensor(val[0]) for key, val in encodings.items()}
         item['labels'] = torch.tensor(label)
         return item
+
+
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)
+    print(classification_report(labels, predictions, digits=4))
+    return metric.compute(predictions=predictions, references=labels, average='weighted')
 
 
 if __name__ == '__main__':
@@ -74,7 +86,9 @@ if __name__ == '__main__':
         seed=2021,
         logging_dir="logs/",
         logging_strategy="steps",
-        logging_steps=100
+        logging_steps=100,
+        save_total_limit=5,
+        evaluation_strategy="epoch",
     )
 
     trainer = Trainer(
@@ -82,8 +96,10 @@ if __name__ == '__main__':
         args=training_args,  # training arguments, defined above
         train_dataset=train_dataset,  # training dataset
         tokenizer=tokenizer,
+        eval_dataset=test_dataset,
+        compute_metrics=compute_metrics,
     )
 
     print("=====Training=====")
     trainer.train()
-    print(trainer.evaluate(test_dataset))
+    # print(trainer.evaluate(test_dataset))
