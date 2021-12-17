@@ -14,13 +14,21 @@ use_cuda = False # 设置True or False
 
 # 预测中文评价对象级的情感分类任务
 my_senta.init_model(model_class="ernie_1.0_skep_large_ch", task="aspect_sentiment_classify", use_cuda=use_cuda)
-texts = ["百度是一家高科技公司"]
-aspects = ["百度"]
-result = my_senta.predict(texts, aspects)
-print(result)
+while True:
+    text = str(input("请输入text:"))
+    texts = [text]
+    aspect = str(input("请输入aspect:"))
+    aspects = [aspect]
+    result = my_senta.predict(texts, aspects)
+    print(result)
 
-# 预测中文观点抽取任务
-my_senta.init_model(model_class="ernie_1.0_skep_large_ch", task="extraction", use_cuda=use_cuda)
-texts = ["唐 家 三 少 ， 本 名 张 威 。"]
-result = my_senta.predict(texts, aspects)
-print(result)
+# texts = ["百度是一家高科技公司"]
+# aspects = ["百度"]
+# result = my_senta.predict(texts, aspects)
+# print(result)
+
+# # 预测中文观点抽取任务
+# my_senta.init_model(model_class="ernie_1.0_skep_large_ch", task="extraction", use_cuda=use_cuda)
+# texts = ["唐 家 三 少 ， 本 名 张 威 。"]
+# result = my_senta.predict(texts, aspects)
+# print(result)
