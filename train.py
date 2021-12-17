@@ -53,13 +53,13 @@ if __name__ == '__main__':
 
     plm, tokenizer, model_config, WrapperClass = load_plm("bert", args.model_name_or_path)
     promptTemplate = ManualTemplate(
-        text='{"placeholder":"text_a"}，{"placeholder":"text_b"}是{"soft":"好"}吗？{"mask"}',
+        text='{"placeholder":"text_a"}，{"placeholder":"text_b"}是好评吗？{"mask"}',
         tokenizer=tokenizer,
     )
     promptVerbalizer = ManualVerbalizer(
         classes=classes,
         label_words={
-            "负面": ["否", "错"],
+            "负面": ["否", "错", "不"],
             "正面": ["是", "对"],
         },
         tokenizer=tokenizer,
