@@ -74,7 +74,7 @@ if __name__ == '__main__':
     test_dataset = LazyNLU_Dataset(tokenizer, test_text, test_aspect, test_label)
 
     print("=====Model Initing=====")
-    model = BertForSequenceClassification.from_pretrained(args.model_name_or_path, num_cls=2).to(device)
+    model = BertForSequenceClassification.from_pretrained(args.model_name_or_path).to(device)
     training_args = TrainingArguments(
         output_dir='./results',  # output directory
         num_train_epochs=args.total_epoch,  # total number of training epochs
