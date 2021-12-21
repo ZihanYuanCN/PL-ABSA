@@ -106,6 +106,9 @@ if __name__ == '__main__':
             for step, inputs in tqdm.tqdm(enumerate(tmp_data_loader)):
                 inputs = inputs.to(device)
                 logits = promptModel(inputs)
-                print(torch.argmax(logits, dim=-1).cpu().tolist())
-                print(logits)
+                pred = torch.argmax(logits, dim=-1).cpu().tolist()
+                if pred[0]:
+                    print("正向")
+                else:
+                    print("负向")
 
