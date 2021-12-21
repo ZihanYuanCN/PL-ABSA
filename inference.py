@@ -87,3 +87,8 @@ if __name__ == '__main__':
     acc = sum([int(i == j) for i, j in zip(allpreds, alllabels)]) / len(allpreds)
     print(acc)
     print(classification_report(alllabels, allpreds, digits=4))
+
+    tmp_text = input("请输入text：")
+    tmp_aspect = input("请输入aspect:")
+    tmp_dataset = [InputExample(guid=0, text_a=tmp_aspect, text_b=tmp_text)]
+
