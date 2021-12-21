@@ -113,7 +113,7 @@ if __name__ == '__main__':
             if step % 100 == 1:
                 print("Epoch {}, average loss: {}".format(epoch, tot_loss / (step + 1)), flush=True)
 
-        # making zero-shot inference using pretrained MLM with prompt
+        # making few-shot inference using pretrained MLM with prompt
         promptModel.eval()
         with torch.no_grad():
             allpreds = []
@@ -128,3 +128,4 @@ if __name__ == '__main__':
         print(acc)
         print(classification_report(alllabels, allpreds, digits=4))
     # predictions would be 1, 0 for classes 'positive', 'negative'
+    torch.save(promptModel, 'pl-absa.pt')
