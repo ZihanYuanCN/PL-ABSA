@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser.add_argument("--train_file", default="data/train_data.csv", type=str)
     parser.add_argument("--test_file", default="data/test_data.csv", type=str)
     parser.add_argument("--batch_size", default=4, type=int)
-    parser.add_argument("--total_epoch", default=30, type=int)
+    parser.add_argument("--total_epoch", default=2, type=int)
 
     args = parser.parse_args()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
