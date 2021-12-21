@@ -67,14 +67,14 @@ if __name__ == '__main__':
     test_text = list(test_df['text'])
     train_aspect = list(train_df['aspect'])
     test_aspect = list(test_df['aspect'])
-    train_label = list(train_df['label'])
-    test_label = list(test_df['label'])
+    train_label = [1 if _ else 0 for _ in list(train_df['label'])]
+    test_label = [1 if _ else 0 for _ in list(test_df['label'])]
     tokenizer = BertTokenizer.from_pretrained(args.model_name_or_path, do_lower_case=True)
     train_dataset = LazyNLU_Dataset(tokenizer, train_text, train_aspect, train_label)
     test_dataset = LazyNLU_Dataset(tokenizer, test_text, test_aspect, test_label)
 
     print("=====Model Initing=====")
-    model = BertForSequenceClassification.from_pretrained(args.model_name_or_path).to(device)
+    model = BertForSequenceClassification.from_pretrained(args.model_name_or_path, num_cls=2).to(device)
     training_args = TrainingArguments(
         output_dir='./results',  # output directory
         num_train_epochs=args.total_epoch,  # total number of training epochs
