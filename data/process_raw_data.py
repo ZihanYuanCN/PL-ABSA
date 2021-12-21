@@ -43,11 +43,18 @@ with open(file, 'r', encoding='utf-8') as fp:
         data_list.append(load_dict)
 print(data_list[0])
 
+test_flag_dict = dict()
 
 data_text = list()
 data_label = list()
 for i in range(len(data_list)):
     now_text = data_list[i]['text']
+    if now_text not in test_flag_dict.keys():
+        now_p = random.random()
+        if now_p <= 0.1:
+            test_flag_dict[now_text] = True
+        else:
+            test_flag_dict[now_text] = False
     label = data_list[i]['label']
     now_label = get_label(label)
     for j in range(len(now_label)):
@@ -62,6 +69,12 @@ with open(file, 'r', encoding='utf-8') as fp:
     for line in lines[1:]:
         line = line.strip().split(',')
         now_text = line[0]
+        if now_text not in test_flag_dict.keys():
+            now_p = random.random()
+            if now_p <= 0.1:
+                test_flag_dict[now_text] = True
+            else:
+                test_flag_dict[now_text] = False
         now_label = line[1:]
         for label in now_label:
             if label != "":
@@ -82,9 +95,16 @@ data_df.to_csv('all_data.csv')
 
 random.seed(1)
 random.shuffle(all_data)
-train_size = int(len(all_data)*0.9)
-train_data = all_data[:train_size]
-test_data = all_data[train_size:]
+train_data = list()
+test_data = list()
+for i in range(len(all_data)):
+    if test_flag_dict[all_data[i][0]]:
+        test_data.append(all_data[i])
+    else:
+        train_data.append(all_data[i])
+# train_size = int(len(all_data)*0.9)
+# train_data = all_data[:train_size]
+# test_data = all_data[train_size:]
 train_data_df = pd.DataFrame(train_data, columns=['text', 'aspect', 'label'])
 train_data_df.to_csv('train_data.csv')
 test_data_df = pd.DataFrame(test_data, columns=['text', 'aspect', 'label'])
