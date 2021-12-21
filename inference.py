@@ -96,7 +96,7 @@ if __name__ == '__main__':
             tokenizer=tokenizer,
             template=promptTemplate,
             tokenizer_wrapper_class=WrapperClass,
-            batch_size=args.batch_size,
+            batch_size=1,
             shuffle=False
         )
         promptModel.eval()
@@ -107,4 +107,5 @@ if __name__ == '__main__':
                 inputs = inputs.to(device)
                 logits = promptModel(inputs)
                 print(torch.argmax(logits, dim=-1).cpu().tolist())
+                print(logits)
 
