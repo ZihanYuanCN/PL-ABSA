@@ -87,8 +87,24 @@ if __name__ == '__main__':
     acc = sum([int(i == j) for i, j in zip(allpreds, alllabels)]) / len(allpreds)
     print(acc)
     print(classification_report(alllabels, allpreds, digits=4))
-
-    tmp_text = input("请输入text：")
-    tmp_aspect = input("请输入aspect:")
-    tmp_dataset = [InputExample(guid=0, text_a=tmp_aspect, text_b=tmp_text)]
+    while True:
+        tmp_text = input("请输入text：")
+        tmp_aspect = input("请输入aspect:")
+        tmp_dataset = [InputExample(guid=0, text_a=tmp_aspect, text_b=tmp_text)]
+        tmp_data_loader = PromptDataLoader(
+            dataset=tmp_dataset,
+            tokenizer=tokenizer,
+            template=promptTemplate,
+            tokenizer_wrapper_class=WrapperClass,
+            batch_size=args.batch_size,
+            shuffle=False
+        )
+        promptModel.eval()
+        with torch.no_grad():
+            allpreds = []
+            alllabels = []
+            for step, inputs in tqdm.tqdm(enumerate(tmp_data_loader)):
+                inputs = inputs.to(device)
+                logits = promptModel(inputs)
+                print(torch.argmax(logits, dim=-1).cpu().tolist())
 
