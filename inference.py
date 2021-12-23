@@ -71,7 +71,7 @@ if __name__ == '__main__':
             inputs = inputs.to(device)
             logits = promptModel(inputs)
             allpreds.extend(torch.argmax(logits, dim=-1).cpu().tolist())
-    test_pred = [True if _ == 1 else 0 for _ in allpreds]
+    test_pred = [True if _ == 1 else False for _ in allpreds]
     out_data = list(zip(test_text, test_aspect, test_pred))
     out_df = pd.DataFrame(out_data, columns=['text', 'aspect', 'prediction'])
     out_df.to_csv("predictions.csv")
