@@ -50,12 +50,12 @@ def compute_metrics(eval_pred):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name_or_path", default="uer/chinese_roberta_L-12_H-768", type=str)
+    parser.add_argument("--model_name_or_path", default="bert-base-chinese", type=str)
     parser.add_argument("--learning_rate", default=2e-5, type=float)
     parser.add_argument("--train_file", default="data/train_data.csv", type=str)
     parser.add_argument("--test_file", default="data/test_data.csv", type=str)
     parser.add_argument("--batch_size", default=8, type=int)
-    parser.add_argument("--total_epoch", default=10, type=int)
+    parser.add_argument("--total_epoch", default=2, type=int)
 
     args = parser.parse_args()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
